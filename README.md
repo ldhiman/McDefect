@@ -1,7 +1,3 @@
-Sure! I can draft a **B.Tech project report** for your **“Steel Surface Defect Detection using AI”** project. I’ll structure it in a standard format that you can directly adapt, add figures/screenshots, and submit.
-
----
-
 # **B.Tech Project Report**
 
 **Project Title:** Steel Surface Defect Detection using AI
