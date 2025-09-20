@@ -3,7 +3,7 @@
 **Project Title:** Steel Surface Defect Detection using AI
 
 **Student Name:** Paramjeet, Paras, Priyanshu \
-**Roll Number:** 2K22/ME/182, 2K22/ME/184, 2K22/ME/204 \
+**Roll Number:** 2K22/ME/183, 2K22/ME/184, 2K22/ME/204 \
 **Department:** Mechanical Engineering \
 **Semester:** 7th \
 **Guide Name:** Prof. Rooplal \
