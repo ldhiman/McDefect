@@ -8,7 +8,7 @@
 **Semester:** 7th \
 **Guide Name:** Prof. Rooplal \
 **College:** Delhi Technological University \
-**Session:** 2025-26 \
+**Session:** 2025-26
 
 ---
 
