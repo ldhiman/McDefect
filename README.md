@@ -2,13 +2,13 @@
 
 **Project Title:** Steel Surface Defect Detection using AI
 
-**Student Name:** \[Your Name]
-**Roll Number:** \[Your Roll Number]
+**Student Name:** Paramjeet, Paras, Priyanshu
+**Roll Number:** 2K22/ME/182, 2K22/ME/184, 2K22/ME/204
 **Department:** Mechanical Engineering
-**Semester:** \[Your Semester]
-**Guide Name:** \[Guide’s Name]
-**College:** \[Your College Name]
-**Year:** \[2025]
+**Semester:** 7th
+**Guide Name:** Prof. Rooplal
+**College:** Delhi Technological University
+**Session:** 2025-26
 
 ---
 
