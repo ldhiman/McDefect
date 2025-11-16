@@ -1,6 +1,6 @@
-# **B.Tech Project Report**
+# McDefect: Steel Surface Defect Classification Model Evaluation
 
-**Project Title:** Steel Surface Defect Detection using AI
+This project evaluates and compares the performance of several pre-trained Deep Learning models for the task of classifying steel surface defects. It uses the North-Eastern University (NEU) surface defect dataset.
 
 **Student Name:** Paramjeet, Paras, Priyanshu \
 **Roll Number:** 2K22/ME/183, 2K22/ME/184, 2K22/ME/204 \
@@ -10,143 +10,94 @@
 **College:** Delhi Technological University \
 **Session:** 2025-26
 
----
+!Sample Confusion Matrix
 
-## **Abstract**
+## Features
 
-Surface defects in steel, such as scratches, cracks, rolled-in scale, and inclusions, can affect the quality and reliability of industrial products. Manual inspection is time-consuming and prone to human error. This project proposes an **AI-based solution** to automatically detect steel surface defects using **image classification with Convolutional Neural Networks (CNNs)**. The system achieves high accuracy, reduces human effort, and demonstrates the integration of mechanical engineering concepts with information technology.
+- **Multi-Model Evaluation**: Sequentially evaluates a list of specified Keras models.
+- **Data Preprocessing**: Automatically loads, resizes, and adapts images (e.g., grayscale to RGB) to match the input requirements of each model.
+- **Performance Metrics**: For each model, it:
+  - Generates and saves a raw count confusion matrix image.
+  - Generates and saves a normalized confusion matrix image.
+  - Prints a detailed classification report (precision, recall, F1-score) to the console.
 
----
+## Dataset
 
-## **1. Introduction**
+This project uses the **NEU Surface Defect Database**. The script is configured to read images from a specific folder structure.
 
-Steel is a critical material in manufacturing industries. Surface defects reduce product quality and can lead to failures in mechanical components. Traditional manual inspection is inefficient, inconsistent, and labor-intensive.
+- **Classes**: The models are trained to classify 6 types of defects:
+  1.  `crazing`
+  2.  `inclusion`
+  3.  `patches`
+  4.  `pitted_surface`
+  5.  `rolled-in_scale`
+  6.  `scratches`
 
-With the advancement of **computer vision and machine learning**, automated defect detection is now feasible. This project integrates **mechanical engineering knowledge** (types of steel defects) with **IT techniques** (image processing and AI) to create an effective solution.
+You must download the dataset and organize the validation images into subfolders named after these classes.
 
-**Objectives:**
+## Models Evaluated
 
-1. Automate the detection of common steel surface defects.
-2. Reduce inspection time and human error.
-3. Provide a practical demo for industrial applications.
+The script is configured to evaluate the following model architectures. You must provide the corresponding `.keras` model files.
 
----
+- `steel_defect_cnn_v1.keras` (Custom CNN)
+- `steel_defect_mobileVnet_v1.keras` (MobileNetV2)
+- `steel_defect_efficientnet_b0.keras` (EfficientNetB0)
+- `steel_defect_DenseNet121.keras` (DenseNet121)
+- `steel_defect_ResNet50V2.keras` (ResNet50V2)
 
-## **2. Literature Review**
+## Prerequisites
 
-- Manual inspection is widely used but subjective.
-- Computer vision-based defect detection has been explored in several studies, often using **Convolutional Neural Networks (CNNs)** for image classification.
-- NEU Surface Defect Database and MVTec AD dataset are commonly used datasets for research.
-- This project uses NEU dataset due to its variety of defects and ease of use.
+- Python 3.8+
+- The required Python libraries can be installed from `requirements.txt`.
 
----
+```
+tensorflow
+scikit-learn
+matplotlib
+numpy
+opencv-python
+```
 
-## **3. Materials and Methods**
+You can install them all with pip:
 
-### 3.1 Dataset
+```bash
+pip install -r requirements.txt
+```
 
-- **Source:** NEU Surface Defect Database
-- **Contents:** 1800 grayscale images, 6 defect types:
+## Setup & Usage
 
-  1. Crazing
-  2. Inclusion
-  3. Patches
-  4. Pitted Surface
-  5. Rolled-in Scale
-  6. Scratches
+1.  **Clone the repository:**
 
-- **Data split:** 80% training, 20% testing
+    ```bash
+    git clone <your-repo-url>
+    cd <your-repo-folder>
+    ```
 
----
+2.  **Install dependencies:**
 
-### 3.2 Tools and Software
+    ```bash
+    pip install tensorflow scikit-learn matplotlib opencv-python numpy
+    ```
 
-- **Programming Language:** Python
-- **Libraries:** OpenCV, NumPy, Pandas, Matplotlib, TensorFlow/Keras
-- **IDE:** Jupyter Notebook / VS Code
+3.  **Prepare the data:**
 
----
+    - Download the NEU Surface Defect Database.
+    - Create a directory structure as expected by the script: `NEU-DET/validation/images/`.
+    - Inside the `images` folder, create a subfolder for each defect class (e.g., `crazing`, `inclusion`, etc.) and place the corresponding images inside.
 
-### 3.3 Methodology
+4.  **Place the models:**
 
-1. **Image Preprocessing:**
+    - Place your pre-trained `.keras` model files in the root directory of the project. Ensure their names match the ones listed in `MODEL_PATHS` in the script.
 
-   - Resize images to 128×128 pixels
-   - Normalize pixel values (0–1)
-   - Convert to grayscale if needed
+5.  **Run the evaluation:**
+    Execute the script from your terminal.
+    ```bash
+    python confusionMatrix.py
+    ```
 
-2. **CNN Model Architecture:**
+## Output
 
-   - Input Layer: 128×128×1
-   - Conv2D → MaxPooling → Conv2D → MaxPooling
-   - Flatten → Dense → Output Layer (6 classes, Softmax)
-
-3. **Training:**
-
-   - Loss function: categorical_crossentropy
-   - Optimizer: Adam
-   - Epochs: 25–30 (adjust based on accuracy)
-
-4. **Evaluation:**
-
-   - Accuracy on test dataset
-   - Confusion matrix to visualize classification performance
-
-5. **Demo:**
-
-   - Simple GUI using Tkinter or Streamlit
-   - Upload image → predict defect type → display result
-
----
-
-## **4. Results**
-
-- Training accuracy: \~95% (can vary depending on epochs)
-- Test accuracy: \~90–93%
-- Confusion matrix shows minor misclassification between similar defects (e.g., patches vs pitted surface)
-- GUI demonstrates real-time defect detection by uploading images
-
-_(Insert screenshots of CNN training, accuracy graph, and GUI demo here)_
-
----
-
-## **5. Discussion**
-
-- The model performs well on all 6 defect types.
-- Strengths: Fast, accurate, reduces human error, practical for workshop environments.
-- Limitations:
-
-  - Dataset size is limited → small variations in real steel sheets may cause misclassification
-  - Lighting conditions can affect accuracy if real-time images are used
-
-- Future improvements:
-
-  - Use data augmentation or larger datasets for better generalization
-  - Integrate real-time camera inspection on conveyor systems
-  - Deploy model on Raspberry Pi for industrial automation
-
----
-
-## **6. Conclusion**
-
-The project successfully demonstrates **AI-based steel surface defect detection**, bridging mechanical engineering with IT. The system can classify six common defects with high accuracy, providing a practical solution for industrial inspection. This project highlights the potential of combining mechanical expertise with modern computing technologies for **smart manufacturing**.
-
----
-
-## **7. References**
-
-1. NEU Surface Defect Database: [Link](https://www.cse.neu.edu.cn/~cheng/NEU_surface_defect_database.html)
-2. MVTec AD Dataset: [Link](https://www.mvtec.com/company/research/datasets/mvtec-ad)
-3. Goodfellow, I., Bengio, Y., & Courville, A. _Deep Learning_, MIT Press, 2016.
-4. OpenCV Documentation: [https://opencv.org](https://opencv.org)
-5. Keras Documentation: [https://keras.io](https://keras.io)
-
----
-
-## **8. Annexure / Appendix**
-
-- Sample images of each defect type
-- Python code snippets (preprocessing, model training, prediction)
-- GUI screenshots
-
----
+- **Console Output**: For each model, a classification report is printed, showing precision, recall, and F1-score for each class.
+- **Image Files**: The script generates two confusion matrix images (`.png`) for each model and saves them in the `cm_outputs/` directory:
+  - `cm_<model_name>.png`: Confusion matrix with raw prediction counts.
+  - `cm_<model_name>_norm.png`: Confusion matrix with values normalized by the number of true instances per class (showing percentages).

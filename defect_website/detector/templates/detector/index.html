@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Steel Defect Detector</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background-color: #f9f9f9; }
+        h1, h2 { color: #333; }
+        .container { display: flex; flex-wrap: wrap; gap: 40px; }
+        .form-box, .result-box { background: #fff; border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .form-box { flex-basis: 350px; }
+        .result-box { flex-basis: 400px; flex-grow: 1; }
+        img { max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 4px; }
+        button { background-color: #007bff; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        button:hover { background-color: #0056b3; }
+        select, input[type="file"] { width: 100%; padding: 8px; margin-bottom: 15px; box-sizing: border-box; }
+        .result-item { margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; }
+        .result-item:first-child { border-top: none; margin-top: 0; padding-top: 0; }
+    </style>
+</head>
+<body>
+    <h1>🔩 Steel Defect Detector</h1>
+
+    <div class="container">
+        
+        <div class="form-box">
+            <h2>Upload an Image</h2>
+            
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <label for="model_choice">Choose a model:</label>
+                <select name="model_choice" id="model_choice">
+                    <option value="all" {% if "all" == selected_model_key %}selected{% endif %}>
+                        All Models
+                    </option>
+                    
+                    {% for key, config in models.items %}
+                    <option value="{{ key }}" {% if key == selected_model_key %}selected{% endif %}>
+                        {{ config.name }}
+                    </option>
+                    {% endfor %}
+                </select>
+                
+                <label for="imagefile">Select image:</label>
+                <input type="file" name="imagefile" id="imagefile" accept="image/*" required>
+                
+                <button type="submit">Analyze Defect</button>
+            </form>
+        </div>
+
+        {% if results %}
+        <div class="result-box">
+            <h2>Analysis Result</h2>
+            <h3>File: <b>{{ file_name }}</b></h3>
+            <img src="data:image/jpeg;base64,{{ uploaded_image }}" alt="Uploaded Image">
+            
+            {% for result in results %}
+                <div class="result-item">
+                    <h4>{{ result.name }}</h4>
+                    {% if result.error %}
+                        <p style="color:red;"><b>Error:</b> {{ result.error }}</p>
+                    {% else %}
+                        <p>Actual : <b>{{ file_name }}</b><p>
+                        <p>Prediction: <b>{{ result.prediction }}</b></p>
+                        <p>Confidence: <b>{{ result.confidence }}%</b></p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            
+        </div>
+        {% endif %}
+
+        {% if error %}
+            <h3 style="color:red;">Error: {{ error }}</h3>
+        {% endif %}
+    </div>
+
+</body>
+</html>
